@@ -1,4 +1,4 @@
-package pkg
+package main
 
 import (
 	"time"
@@ -7,40 +7,23 @@ import (
 	"fmt"
 	"io"
 	"errors"
+	"strings"
 )
 
-var Token string
-var URL string = "https://adventofcode.com"
-var Year int
-// var Month int
-var Day int
-
-func init() {
-    t := time.Now()
-	Year = t.Year()
-	// Month = t.Month()
-	Day = t.Day()
+type Data struct {
+	token string	
 }
 
-func GetTodaysInput() string {
-	resp, err := GetInput(Year, Day)
-	if err != nil {
-		// probably a day early
-		resp, err = GetInput(Year, Day - 1)
-	}
-	return resp
-}
-
-func GetInput(year int, day int) (string, error) {
+func (d Data) GetInput(year int, day int) (string, error) {
 	jar, _ := cookiejar.New(nil)
 	client := http.Client{
         Jar: jar,
     }
-	url := fmt.Sprintf("%s/%d/day/%d/input", URL, year, day)
+	url := fmt.Sprintf("https://adventofcode.com/%d/day/%d/input", year, day)
 	req, _ := http.NewRequest("GET", url, nil)
 	cookie := &http.Cookie{
         Name:   "session",
-        Value:  Token,
+        Value:  d.token,
         MaxAge: 300,
     }
 	req.AddCookie(cookie)
@@ -52,3 +35,18 @@ func GetInput(year int, day int) (string, error) {
 	}
 	return string(bodyBytes), nil
 }
+
+func (d Data) GetTodaysInput() string {
+	t := time.Now()
+	resp, err := d.GetInput(t.Year(), t.Day())
+	if err != nil {
+		// probably a day early
+		resp, err = d.GetInput(t.Year(), t.Day() - 1)
+	}
+	return resp
+}
+
+func (d Data) GetTodaysInputLines() []string {
+	return strings.Split(d.GetTodaysInput(), "\n")
+}
+
