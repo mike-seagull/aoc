@@ -36,6 +36,15 @@ func (d Data) GetInput(year int, day int) (string, error) {
 	return string(bodyBytes), nil
 }
 
+func (d Data) GetInputLines(year int, day int) []string {
+	resp, err := d.GetInput(year, day)
+	if err != nil {
+		return []string{}
+	} else {
+		return strings.Split(resp, "\n")
+	}
+}
+
 func (d Data) GetTodaysInput() string {
 	t := time.Now()
 	resp, err := d.GetInput(t.Year(), t.Day())

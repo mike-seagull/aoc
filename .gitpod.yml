@@ -1,0 +1,14 @@
+---
+github:
+  prebuilds:
+    master: false
+    branches: true
+image: ghcr.io/mike-seagull/gitpod-images:base
+checkoutLocation: "src/github.com/mike-seagull/aoc"
+workspaceLocation: "."
+tasks:
+  - init: >
+      cd /workspace/src/github.com/mike-seagull/aoc &&
+      go get -v ./...
+    command: >
+      cd /workspace/src/github.com/mike-seagull/aoc
