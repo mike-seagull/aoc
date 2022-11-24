@@ -1,4 +1,4 @@
-module github.com/mike-seagull/aoc/v2
+module github.com/mike-seagull/aoc
 
 go 1.18
 

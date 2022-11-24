@@ -6,7 +6,7 @@ import (
     aoc "github.com/mike-seagull/aoc"
 )
 func main() {
-    var session = aoc.Data{token: "MY_SESSION_TOKEN"}
+    var session = aoc.Input{token: "MY_SESSION_TOKEN"}
     todaysInput := session.GetTodaysInput() // Returns raw puzzle input
     todaysInputArray := session.GetTodaysInputLines() // Returns todays input as an array of strings
 }
